@@ -1,0 +1,19 @@
+/* ItemCount.css */
+
+.Counter {
+    margin-top: 20px;
+  }
+  
+  .Controls {
+    display: flex;
+    align-items: center;
+  }
+  
+  .Button {
+    margin: 0 10px;
+  }
+  
+  .Number {
+    margin: 0 10px;
+  }
+  

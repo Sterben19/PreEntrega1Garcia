@@ -1,14 +1,16 @@
 import React from "react";
+import { collection, getDocs, query, where, documentId } from "firebase/firestore";
+import { db } from "./services/firebase/firebaseConfig";
 
 const products = [
     {
         id: '1',
-        name: 'Amigurumi 1',
-        price: 1000,
+        name: 'Amigurumi de Luffy',
+        price: 120000,
         category: 'Amigurumis',
-        img: 'https://scontent.fbog4-2.fna.fbcdn.net/v/t39.30808-6/421606574_1238907213838287_3029457559136070121_n.jpg?stp=dst-jpg_p526x296&_nc_cat=107&ccb=1-7&_nc_sid=dd5e9f&_nc_eui2=AeH1dvHS8n4wH5_tC30L2SpODl0XUw8Jm2oOXRdTDwmbar3Q8vFJ_zSaGBBJhajUkLFnpsq_mWNDubJx-hYGprJD&_nc_ohc=F92f8nwLR5sAX_Bl4wZ&_nc_ht=scontent.fbog4-2.fna&oh=00_AfDkxSH4TEH-qi-ymywFjymb9fs3sLPyxgifMMsCW6MJxA&oe=65DA1781',
-        stock: 25,
-        description: 'Descrpción de Amigurumi'
+        img: 'https://scontent.fbog4-1.fna.fbcdn.net/v/t39.30808-6/423193616_1242816620114013_1643989797267208862_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeGlL5m0CPyiwSKOA_Ug1pHTwD7MFtm8y4TAPswW2bzLhKQsv2vpPe1wjq6vBN5dwtO7rgG12VhHb8Y0GzIGkUlT&_nc_ohc=FHZeSwIewPMAX96eqPD&_nc_ht=scontent.fbog4-1.fna&oh=00_AfDrSIQrXEQVfphM4oCFvnP_jnpSzyUNrY8izBicV7rydw&oe=65F0D2E4',
+        stock: 3,
+        description: 'Aamigurumi del capitán de los sombreros de paja'
         
     },
     {
@@ -31,13 +33,12 @@ const products = [
     }
 ]
 
-export const getProducts = () => {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve(products)
-        }, 500)
-    })
-}
+export const getProducts = async (ids) => {
+    const productsRef = collection(db, 'products');
+    const q = query(productsRef, where(documentId(), 'in', ids));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot;
+};
 
 export const getProductById = (productId) => {
     return new Promise((resolve) => {
